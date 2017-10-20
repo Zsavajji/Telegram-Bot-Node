@@ -1,0 +1,205 @@
+-
+	const title = "Telegram-Bot-Node";
+	const description = "A plugin-based, all-in-one Telegram bot written in Node.js."
+	const github = "https://github.com/crisbal/Telegram-Bot-Node";
+
+doctype html
+head
+	meta(charset="utf-8")
+	meta(http-equiv="X-UA-Compatible" content="IE=edge")
+	meta(name="viewport" content="width=device-width, initial-scale=1")
+	title #{title}
+	// Bulma Version 0.6.0
+	link(rel="stylesheet" href="./bulma.min.css")
+	link(rel="stylesheet" type="text/css" href="admin.css")
+body
+	// START NAV
+	nav.navbar.is-white
+		.container
+			.navbar-brand
+				a.navbar-item.brand-text #{title}
+			#navMenu.navbar-menu
+				.navbar-start
+					a.navbar-item(href=".")
+						| Project page
+					a.navbar-item(href=github)
+						| Source code
+					a.navbar-item(href=github + "/issues")
+						| Issues
+					a.navbar-item(href=github + "/pulls")
+						| Pull requests
+	// END NAV
+	.container
+		section.hero.is-info.welcome.is-small
+			.hero-body
+				.container
+					h1.title
+						| #{title}
+					h2.subtitle
+						| #{description}
+		br
+		h1.title What is #{title}?
+		p
+			| #{title} is a Telegram #[strong bot framework] written in Node.js. Its architecture is based on plugins, many of which are bundled by default. It supports:
+			//- .content is needed for bullet lists
+			.content
+				ul(style="list-style-type: square;")
+					li All bot API features
+					li Moderation tools
+					li Enabling, disabling and live-reloading plugins
+					li Importing custom plugins
+					li Automatic software updates (soon!)
+		.columns
+			.column.is-3
+				aside.menu
+					p.menu-label
+						| General
+					ul.menu-list
+						li
+							a.is-active Dashboard
+						li
+							a Customers
+					p.menu-label
+						| Administration
+					ul.menu-list
+						li
+							a Team Settings
+						li
+							a Manage Your Team
+							ul
+								li
+									a Members
+								li
+									a Plugins
+								li
+									a Add a member
+						li
+							a Invitations
+						li
+							a Cloud Storage Environment Settings
+						li
+							a Authentication
+					p.menu-label
+						| Transactions
+					ul.menu-list
+						li
+							a Payments
+						li
+							a Transfers
+						li
+							a Balance
+			.column.is-9
+				section.info-tiles
+					.tile.is-ancestor.has-text-centered
+						.tile.is-parent
+							article.tile.is-child.box
+								p.title 36
+								p.subtitle plugins
+						.tile.is-parent
+							article.tile.is-child.box
+								p.title 2.5k
+								p.subtitle lines of code
+						.tile.is-parent
+							article.tile.is-child.box
+								p.title MIT
+								p.subtitle licensed
+				.columns
+					.column.is-6
+						.card.events-card
+							header.card-header
+								p.card-header-title
+									| Events
+								a.card-header-icon(href="#" aria-label="more options")
+									span.icon
+										i.fa.fa-angle-down(aria-hidden="true")
+							.card-table
+								.content
+									table.table.is-fullwidth.is-striped
+										tbody
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+											tr
+												td(width="5%")
+													i.fa.fa-bell-o
+												td Lorum ipsum dolem aire
+												td
+													a.button.is-small.is-primary(href="#") Action
+							footer.card-footer
+								a.card-footer-item(href="#") View All
+					.column.is-6
+						.card
+							header.card-header
+								p.card-header-title
+									| Inventory Search
+								a.card-header-icon(href="#" aria-label="more options")
+									span.icon
+										i.fa.fa-angle-down(aria-hidden="true")
+							.card-content
+								.content
+									.control.has-icons-left.has-icons-right
+										input.input.is-large(type="text" placeholder="")
+										span.icon.is-medium.is-left
+											i.fa.fa-search
+										span.icon.is-medium.is-right
+											i.fa.fa-check
+						.card
+							header.card-header
+								p.card-header-title
+									| User Search
+								a.card-header-icon(href="#" aria-label="more options")
+									span.icon
+										i.fa.fa-angle-down(aria-hidden="true")
+							.card-content
+								.content
+									.control.has-icons-left.has-icons-right
+										input.input.is-large(type="text" placeholder="")
+										span.icon.is-medium.is-left
+											i.fa.fa-search
+										span.icon.is-medium.is-right
+											i.fa.fa-check
