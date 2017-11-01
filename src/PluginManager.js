@@ -169,6 +169,8 @@ module.exports = class PluginManager {
                 if (!isGloballyEnabled)
                     return "Plugin isn't enabled.";
                 const plugin = this.plugins.find(nameMatches(pluginName));
+                if (plugin === undefined)
+                    return "No such plugin.";
                 plugin.blacklist.add(targetChat);
                 return `Plugin disabled successfully for chat ${targetChat}.`;
             }
