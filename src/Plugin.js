@@ -1,7 +1,18 @@
+// @flow
 const Logger = require("./Log");
 
+import type {Handler, Message, PluginMetadata} from "./FlowTypes";
+import type EventEmitter from "events";
+
 module.exports = class Plugin {
-    static get plugin() {
+    db: any;
+    log: InstancedLogger;
+    listener: EventEmitter;
+    blacklist: Set<number>;
+    handlers: {[string]: Handler};
+    shortcutHandler: Handler;
+
+    static get plugin(): PluginMetadata {
         return {
             name: "Plugin",
             description: "Base Plugin",
@@ -36,7 +47,7 @@ module.exports = class Plugin {
         };
     }
 
-    get plugin() {
+    get plugin(): PluginMetadata {
         return this.constructor.plugin;
     }
 
@@ -84,42 +95,42 @@ module.exports = class Plugin {
                 if (typeof ret === "undefined")
                     return;
                 switch (ret.type) {
-                case "text": {
-                    return this.sendMessage(message.chat.id, ret.text, ret.options);
-                }
+                case "text":
+                    this.sendMessage(message.chat.id, ret.text, ret.options);
+                    break;
 
-                case "audio": {
-                    return this.sendAudio(message.chat.id, ret.audio, ret.options);
-                }
+                case "audio":
+                    this.sendAudio(message.chat.id, ret.audio, ret.options);
+                    break;
 
-                case "document": {
-                    return this.sendDocument(message.chat.id, ret.document, ret.options);
-                }
+                case "document":
+                    this.sendDocument(message.chat.id, ret.document, ret.options);
+                    break;
 
-                case "photo": {
-                    return this.sendPhoto(message.chat.id, ret.photo, ret.options);
-                }
+                case "photo":
+                    this.sendPhoto(message.chat.id, ret.photo, ret.options);
+                    break;
 
-                case "sticker": {
-                    return this.sendSticker(message.chat.id, ret.sticker, ret.options);
-                }
+                case "sticker":
+                    this.sendSticker(message.chat.id, ret.sticker, ret.options);
+                    break;
 
-                case "video": {
-                    return this.sendVideo(message.chat.id, ret.video, ret.options);
-                }
+                case "video":
+                    this.sendVideo(message.chat.id, ret.video, ret.options);
+                    break;
 
-                case "voice": {
-                    return this.sendVoice(message.chat.id, ret.voice, ret.options);
-                }
+                case "voice":
+                    this.sendVoice(message.chat.id, ret.voice, ret.options);
+                    break;
 
-                case "status": case "chatAction": {
-                    return this.sendChatAction(message.chat.id, ret.status, ret.options);
-                }
+                case "status":
+                case "chatAction":
+                    this.sendChatAction(message.chat.id, ret.status, ret.options);
+                    break;
 
                 default: {
                     const errorMessage = `Unrecognized reply type ${ret.type}`;
                     this.log.error(errorMessage);
-                    return Promise.reject(errorMessage);
                 }
                 }
             }
@@ -140,4 +151,12 @@ module.exports = class Plugin {
             this.listener.removeListener("_command", this.shortcutHandler);
         }
     }
+    sendMessage: (number, any, ?{}) => void;
+    sendAudio: (number, any, ?{}) => void;
+    sendDocument: (number, any, ?{}) => void;
+    sendPhoto: (number, any, ?{}) => void;
+    sendSticker: (number, any, ?{}) => void;
+    sendVideo: (number, any, ?{}) => void;
+    sendVoice: (number, any, ?{}) => void;
+    sendChatAction: (number, any, ?{}) => void;
 };

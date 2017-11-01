@@ -1,9 +1,9 @@
+// @flow
 const fs = require("fs");
-const assert = require("assert");
 
 // https://stackoverflow.com/a/1584377
-Array.prototype.unique = function() {
-    const a = this.concat();
+function uniqueArray(arr: Array<any>): Array<any> {
+    const a = arr.concat();
     for (let i = 0; i < a.length; ++i) {
         for (let j = i + 1; j < a.length; ++j) {
             if (a[i] === a[j])
@@ -12,14 +12,24 @@ Array.prototype.unique = function() {
     }
 
     return a;
-};
+}
 
 module.exports = class Auth {
-    constructor(config) {
+    db: {
+        _globalAdmins: Array<number>;
+        auth: {
+            [number]: {
+                admins: Array<number>;
+                mods: Array<number>;
+            }
+        }
+    };
+
+    constructor(config: {globalAdmins: Array<number>}) {
         try {
             const data = fs.readFileSync("./db/helper_Auth.json", "utf-8");
             this.db = JSON.parse(data);
-            this.db._globalAdmins = this.db._globalAdmins.concat(config.globalAdmins).unique();
+            this.db._globalAdmins = uniqueArray(this.db._globalAdmins.concat(config.globalAdmins));
         } catch (err) {
             this.db = {
                 auth: {},
@@ -38,130 +48,66 @@ module.exports = class Auth {
         );
     }
 
-    isMod(_userId, _chatId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
+    isMod(userId: number, chatId: number) {
         if (this.isAdmin(userId, chatId)) {
             return true;
         }
         return this.getMods(chatId).includes(userId);
     }
 
-    isAdmin(_userId, _chatId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
-
+    isAdmin(userId: number, chatId: number) {
         return this.isGlobalAdmin(userId) || this.getAdmins(chatId).includes(userId);
     }
 
-    isGlobalAdmin(_userId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
+    isGlobalAdmin(userId: number) {
         return this.getGlobalAdmins().includes(userId);
     }
 
-    addAdmin(_userId, _chatId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
+    addAdmin(userId: number, chatId: number) {
         if (!this.db.auth[chatId])
-            this.db.auth[chatId] = {};
-
-        if (!this.db.auth[chatId].admins)
-            this.db.auth[chatId].admins = [];
+            this.db.auth[chatId] = {admins: [], mods: []};
 
         this.db.auth[chatId].admins.push(userId);
         this.synchronize();
     }
 
-    removeAdmin(_userId, _chatId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
+    removeAdmin(userId: number, chatId: number) {
         if (!this.db.auth[chatId])
-            this.db.auth[chatId] = {};
-
-        if (!this.db.auth[chatId].admins)
-            this.db.auth[chatId].admins = [];
+            this.db.auth[chatId] = {admins: [], mods: []};
 
         this.db.auth[chatId].admins = this.db.auth[chatId].admins.filter(admin => admin !== userId);
         this.synchronize();
     }
 
-    addMod(_userId, _chatId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
+    addMod(userId: number, chatId: number) {
         if (!this.db.auth[chatId])
-            this.db.auth[chatId] = {};
-
-        if (!this.db.auth[chatId].mods)
-            this.db.auth[chatId].mods = [];
+            this.db.auth[chatId] = {admins: [], mods: []};
 
         this.db.auth[chatId].mods.push(userId);
         this.synchronize();
     }
 
-    removeMod(_userId, _chatId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
+    removeMod(userId: number, chatId: number) {
         if (!this.db.auth[chatId])
-            this.db.auth[chatId] = {};
-
-        if (!this.db.auth[chatId].mods)
-            this.db.auth[chatId].mods = [];
+            this.db.auth[chatId] = {admins: [], mods: []};
 
         this.db.auth[chatId].mods = this.db.auth[chatId].mods.filter(mod => mod !== userId);
         this.synchronize();
     }
 
-    addGlobalAdmin(_userId) {
-        const userId = Number(_userId);
-        assert(isFinite(userId));
-        assert(!isNaN(userId));
-        if (!this.db._globalAdmins)
-            this.db._globalAdmins = [];
-
+    addGlobalAdmin(userId: number) {
         this.db._globalAdmins.push(userId);
         this.synchronize();
     }
 
-    getMods(_chatId) {
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
+    getMods(chatId: number) {
         if (this.db.auth[chatId] && this.db.auth[chatId].mods) {
             return this.db.auth[chatId].mods;
         }
         return [];
     }
 
-    getAdmins(_chatId) {
-        const chatId = Number(_chatId);
-        assert(isFinite(chatId));
-        assert(!isNaN(chatId));
+    getAdmins(chatId: number) {
         if (this.db.auth[chatId] && this.db.auth[chatId].admins) {
             return this.db.auth[chatId].admins;
         }

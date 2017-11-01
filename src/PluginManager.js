@@ -1,15 +1,21 @@
+// @flow
 const fs = require('fs');
 const path = require('path');
 const Logger = require("./Log");
 const Plugin = require("./Plugin");
 const {EventEmitter} = require("events");
 
+import type {Config, Message} from "./FlowTypes";
+import type Auth from "./helpers/Auth";
+import type InstancedLogger from "winston";
+import type TelegramBot from "node-telegram-bot-api";
+
 // A small utility functor to find a plugin with a given name
 const nameMatches = targetName => pl => pl.plugin.name.toLowerCase() === targetName.toLowerCase();
 
 const SYNC_INTERVAL = 5000;
 
-function messageIsCommand(message) {
+function messageIsCommand(message: Message): boolean {
     if (!message.entities) return;
     const entity = message.entities[0];
     return entity.offset === 0 && entity.type === "bot_command";
@@ -36,7 +42,15 @@ function parseCommand(message) {
 }
 
 module.exports = class PluginManager {
-    constructor(bot, config, auth) {
+    auth: Auth;
+    bot: TelegramBot;
+    config: Config;
+    emitter: EventEmitter;
+    log: InstancedLogger;
+    plugins: Array<Plugin>;
+    synchronizationInterval: number;
+
+    constructor(bot: TelegramBot, config: Config, auth: Auth) {
         this.bot = bot;
         this.log = new Logger("PluginManager", config);
         this.auth = auth;
@@ -57,7 +71,7 @@ module.exports = class PluginManager {
         for (const eventName of events) {
             bot.on(
                 eventName,
-                message => {
+                (message: Message) => {
                     this.parseHardcoded(message);
                     Promise.all(
                         this.plugins
@@ -80,7 +94,7 @@ module.exports = class PluginManager {
         }
     }
 
-    parseHardcoded(message) {
+    parseHardcoded(message: Message) {
         // Hardcoded commands
         if (!messageIsCommand(message)) return;
         const {command, args: [pluginName, targetChat]} = parseCommand(message);
@@ -94,7 +108,7 @@ module.exports = class PluginManager {
         });
     }
 
-    processHardcoded(command, pluginName, targetChat, message) {
+    processHardcoded(command: string, pluginName: string, targetChat: string, message: Message) {
         if (command === "help") {
             const availablePlugins = this.plugins
                 .map(pl => pl.plugin)
@@ -169,7 +183,7 @@ module.exports = class PluginManager {
 
     // Instantiates the plugin.
     // Returns the plugin itself.
-    loadPlugin(pluginName) {
+    loadPlugin(pluginName: string): Plugin {
         const pluginPath = path.join(__dirname, 'plugins', pluginName);
         /* Invalidates the require() cache.
          * This allows for "hot fixes" to plugins: just /disable it, make the
@@ -218,13 +232,13 @@ module.exports = class PluginManager {
     }
 
     // Adds the plugin to the list of active plugins
-    addPlugin(loadedPlugin) {
+    addPlugin(loadedPlugin: Plugin) {
         this.plugins.push(loadedPlugin);
         this.log.verbose(`Added ${loadedPlugin.plugin.name}.`);
     }
 
     // Returns true if the plugin was added successfully, false otherwise.
-    loadAndAdd(pluginName, persist = true) {
+    loadAndAdd(pluginName: string, persist: boolean = true): boolean {
         try {
             const plugin = this.loadPlugin(pluginName);
             this.log.debug(pluginName + " loaded correctly.");
@@ -240,7 +254,7 @@ module.exports = class PluginManager {
     }
 
     // Load and add every plugin in the list.
-    loadPlugins(pluginNames, persist = true) {
+    loadPlugins(pluginNames: Array<string>, persist: boolean = true) {
         this.log.verbose(`Loading and adding ${pluginNames.length} plugins...`);
         Error.stackTraceLimit = 5; // Avoid printing useless data in stack traces
 
@@ -261,7 +275,7 @@ module.exports = class PluginManager {
     }
 
     // Returns true if at least one plugin was removed
-    removePlugin(pluginName, persist = true) {
+    removePlugin(pluginName: string, persist: boolean = true) {
         this.log.verbose(`Removing plugin ${pluginName}`);
         if (persist) {
             this.config.activePlugins = this.config.activePlugins.filter(name => !nameMatches(name));
@@ -309,7 +323,7 @@ module.exports = class PluginManager {
         }
     }
 
-    emit(event, message) {
+    emit(event: string, message: Message) {
         this.log.debug(`Triggered event ${event}`);
 
         if (event !== "message") {

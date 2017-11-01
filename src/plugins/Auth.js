@@ -1,8 +1,12 @@
+// @flow
 const Plugin = require("./../Plugin");
 const Util = require("./../Util");
 
-module.exports = class AuthPlugin extends Plugin {
+import type {CommandGetter, Message} from "../FlowTypes";
+import type Auth from "../helpers/Auth";
 
+module.exports = class AuthPlugin extends Plugin {
+    auth: Auth;
     static get plugin() {
         return {
             name: "Auth",
@@ -15,24 +19,24 @@ module.exports = class AuthPlugin extends Plugin {
         };
     }
 
-    constructor(obj) {
+    constructor(obj: {auth: Auth}) {
         super(obj);
 
         this.auth = obj.auth;
     }
 
-    get commands() {
+    get commands(): CommandGetter {
         return {
             modlist: ({message}) => JSON.stringify(this.auth.getMods(message.chat.id)),
             adminlist: ({message}) => JSON.stringify(this.auth.getAdmins(message.chat.id)),
-            addmod: ({message, args}) => this.doAction("mod", "addMod", message, args),
-            delmod: ({message, args}) => this.doAction("mod", "removeMod", message, args),
-            addadmin: ({message, args}) => this.doAction("admin", "addAdmin", message, args),
-            deladmin: ({message, args}) => this.doAction("admin", "removeAdmin", message, args)
+            addmod: ({message, args}) => this.doAction("mod", this.auth.addMod, message, args),
+            delmod: ({message, args}) => this.doAction("mod", this.auth.removeMod, message, args),
+            addadmin: ({message, args}) => this.doAction("admin", this.auth.addAdmin, message, args),
+            deladmin: ({message, args}) => this.doAction("admin", this.auth.removeAdmin, message, args)
         };
     }
 
-    doAction(privilege, command, {from, chat}, args) {
+    doAction(privilege: "mod" | "admin", method: (number, number) => void, {from, chat}: Message, args: Array<string>) {
         switch (privilege) {
         case "mod":
             if (!this.auth.isMod(from.id, chat.id))
@@ -61,7 +65,7 @@ module.exports = class AuthPlugin extends Plugin {
         if (!target)
             return "Invalid user (couldn't parse ID, or unknown username).";
 
-        this.auth[command](target, chat.id);
+        method.bind(this.auth)(target, chat.id);
         return "Done.";
     }
 };

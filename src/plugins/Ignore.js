@@ -1,7 +1,15 @@
+// @flow
 const Plugin = require("../Plugin");
 const Util = require("../Util.js");
 
-module.exports = class Ignore extends Plugin {
+import type {CommandGetter, Message, Proxy} from "../FlowTypes";
+import type Auth from "../helpers/Auth";
+
+module.exports = class Ignore extends Plugin implements Proxy {
+    auth: Auth;
+    db: {
+        ignored: Array<number>;
+    };
 
     constructor(obj) {
         super(obj);
@@ -22,13 +30,13 @@ module.exports = class Ignore extends Plugin {
         };
     }
 
-    proxy(eventName, message) {
+    proxy(eventName: string, message: Message): Promise<any> {
         if (this.db.ignored.indexOf(message.from.id) !== -1)
             return Promise.reject();
         return Promise.resolve();
     }
 
-    get commands() {
+    get commands(): CommandGetter {
         return {
             ignorelist: () => JSON.stringify(this.db.ignored),
             ignore: ({args, message}) => {

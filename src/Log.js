@@ -1,6 +1,7 @@
+// @flow
 const winston = require("winston");
 
-module.exports = function Logger(loggername, config, level) {
+module.exports = function Logger(loggername: string, config: {loggingLevel: string}, level: ?string): InstancedLogger {
     if (!level && config) level = config.loggingLevel;
     if (!level) level = "info";
     if (loggername in winston.loggers)
