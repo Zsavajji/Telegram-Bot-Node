@@ -15,7 +15,8 @@ const nameMatches = targetName => pl => pl.plugin.name.toLowerCase() === targetN
 const SYNC_INTERVAL = 5000;
 
 function messageIsCommand(message: Message): boolean {
-    if (!message.entities) return;
+    if (!message.entities)
+        return false;
     const entity = message.entities[0];
     return entity.offset === 0 && entity.type === "bot_command";
 }
