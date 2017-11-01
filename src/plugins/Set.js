@@ -1,8 +1,18 @@
+// @flow
 const Plugin = require("./../Plugin");
+
+import type {CommandGetter, Message, PluginInitializer} from "../FlowTypes";
 
 module.exports = class Set extends Plugin {
 
-    constructor(obj) {
+    db: {
+        replacements: Array<{
+            trigger: string;
+            replacement: string;
+        }>;
+    };
+
+    constructor(obj: PluginInitializer) {
         super(obj);
 
         if (!this.db.replacements) {
@@ -18,7 +28,7 @@ module.exports = class Set extends Plugin {
         };
     }
 
-    onText({message}) {
+    onText({message}: {message: Message}) {
         const chatID = message.chat.id;
 
         for (const item of this.db.replacements) {
@@ -28,7 +38,7 @@ module.exports = class Set extends Plugin {
         }
     }
 
-    get commands() {
+    get commands(): CommandGetter {
         return {
             set: ({args, message}) => {
                 const chatID = message.chat.id;
