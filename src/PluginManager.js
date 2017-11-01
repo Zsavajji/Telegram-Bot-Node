@@ -140,8 +140,7 @@ module.exports = class PluginManager {
                 return "Plugin already enabled.";
             if (targetChat) {
                 try {
-                    this.loadAndAdd(pluginName);
-                    const plugin = this.plugins.find(nameMatches(pluginName));
+                    const plugin = this.loadAndAdd(pluginName);
                     plugin.blacklist.delete(targetChat);
                     return `Plugin enabled successfully for chat ${targetChat}.`;
                 } catch (e) {
@@ -237,8 +236,8 @@ module.exports = class PluginManager {
         this.log.verbose(`Added ${loadedPlugin.plugin.name}.`);
     }
 
-    // Returns true if the plugin was added successfully, false otherwise.
-    loadAndAdd(pluginName: string, persist: boolean = true): boolean {
+    // Returns the plugin
+    loadAndAdd(pluginName: string, persist: boolean = true): Plugin {
         try {
             const plugin = this.loadPlugin(pluginName);
             this.log.debug(pluginName + " loaded correctly.");
@@ -247,6 +246,7 @@ module.exports = class PluginManager {
                 this.config.activePlugins.push(pluginName);
                 fs.writeFileSync("config.json", JSON.stringify(this.config, null, 4));
             }
+            return plugin;
         } catch (e) {
             this.log.warn(`Failed to initialize plugin ${pluginName}.`);
             throw e;
@@ -260,6 +260,7 @@ module.exports = class PluginManager {
 
         const log = pluginNames.map(name => {
             try {
+                // Throws if something doesn't work
                 this.loadAndAdd(name, persist);
                 return true;
             } catch (e) {
