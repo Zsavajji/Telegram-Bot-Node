@@ -2,7 +2,7 @@
 const Plugin = require("../Plugin");
 const Util = require("../Util.js");
 
-import type {CommandGetter, Message, Proxy} from "../FlowTypes";
+import type {CommandGetter, Message, Proxy, PluginInitializer} from "../FlowTypes";
 import type Auth from "../helpers/Auth";
 
 module.exports = class Ignore extends Plugin implements Proxy {
@@ -11,7 +11,7 @@ module.exports = class Ignore extends Plugin implements Proxy {
         ignored: Array<number>;
     };
 
-    constructor(obj) {
+    constructor(obj: PluginInitializer) {
         super(obj);
 
         this.auth = obj.auth;

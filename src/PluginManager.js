@@ -7,7 +7,6 @@ const {EventEmitter} = require("events");
 
 import type {Config, Message} from "./FlowTypes";
 import type Auth from "./helpers/Auth";
-import type InstancedLogger from "winston";
 import type TelegramBot from "node-telegram-bot-api";
 
 // A small utility functor to find a plugin with a given name
@@ -23,7 +22,7 @@ function messageIsCommand(message: Message): boolean {
 
 // Note: we only parse commands at the start of the message,
 // therefore we suppose entity.offset = 0
-function parseCommand(message) {
+function parseCommand(message: Message) {
     const entity = message.entities[0];
 
     const rawCommand = message.text.substring(1, entity.length);
@@ -46,7 +45,7 @@ module.exports = class PluginManager {
     bot: TelegramBot;
     config: Config;
     emitter: EventEmitter;
-    log: InstancedLogger;
+    log: *;
     plugins: Array<Plugin>;
     synchronizationInterval: number;
 
@@ -108,7 +107,7 @@ module.exports = class PluginManager {
         });
     }
 
-    processHardcoded(command: string, pluginName: string, targetChat: string, message: Message) {
+    processHardcoded(command: string, pluginName: string, _targetChat: string, message: Message) {
         if (command === "help") {
             const availablePlugins = this.plugins
                 .map(pl => pl.plugin)
@@ -130,8 +129,11 @@ module.exports = class PluginManager {
         if (!this.auth.isAdmin(message.from.id, message.chat.id)) return;
         // Syntax: /("enable"|"disable") pluginName [targetChat|"chat"]
         // The string "chat" will enable the plugin in the current chat.
-        if (targetChat === "chat") targetChat = message.chat.id;
-        targetChat = Number(targetChat);
+        let targetChat: number;
+        if (_targetChat === "chat")
+            targetChat = message.chat.id;
+        else
+            targetChat = Number(_targetChat);
         // Checks if it is already in this.plugins
         const isGloballyEnabled = this.plugins.some(nameMatches(pluginName));
         switch (command) {
@@ -334,7 +336,7 @@ module.exports = class PluginManager {
             if (messageIsCommand(message)) {
                 const {command, args} = parseCommand(message);
                 this.emitter.emit("_command", {message, command, args});
-            } else if (message.query !== undefined) {
+            } else if (message.query) {
                 const parts = message.query.split(" ");
                 const command = parts[0].toLowerCase();
                 const args = parts.length > 1 ? parts.slice(1) : [];

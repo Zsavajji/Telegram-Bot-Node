@@ -2,7 +2,7 @@
 const Plugin = require("./../Plugin");
 const Util = require("./../Util");
 
-import type {CommandGetter, Message} from "../FlowTypes";
+import type {CommandGetter, Message, PluginInitializer} from "../FlowTypes";
 import type Auth from "../helpers/Auth";
 
 module.exports = class AuthPlugin extends Plugin {
@@ -19,7 +19,7 @@ module.exports = class AuthPlugin extends Plugin {
         };
     }
 
-    constructor(obj: {auth: Auth}) {
+    constructor(obj: PluginInitializer) {
         super(obj);
 
         this.auth = obj.auth;

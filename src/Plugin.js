@@ -1,12 +1,12 @@
 // @flow
 const Logger = require("./Log");
 
-import type {Handler, Message, PluginMetadata} from "./FlowTypes";
+import type {Handler, Message, PluginInitializer, PluginMetadata} from "./FlowTypes";
 import type EventEmitter from "events";
 
 module.exports = class Plugin {
     db: any;
-    log: InstancedLogger;
+    log: Logger;
     listener: EventEmitter;
     blacklist: Set<number>;
     handlers: {[string]: Handler};
@@ -51,7 +51,7 @@ module.exports = class Plugin {
         return this.constructor.plugin;
     }
 
-    constructor({db, blacklist, emitter, bot, config, auth}) {
+    constructor({db, blacklist, emitter, bot, config, auth}: PluginInitializer) {
         if (new.target === Plugin) {
             throw new TypeError("Cannot construct Plugin instances directly!");
         }

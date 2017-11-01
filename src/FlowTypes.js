@@ -12,12 +12,14 @@ export type Message = {
     chat: {
         id: number;
     };
-    entities?: Array<{
+    // Entities, text and query should be marked as optional,
+    // but they are somewhat of a pain in the ass
+    entities: Array<{
     	type: "bot_command" | "mention";
     	length: number;
     }>;
-    text?: string;
-    query?: string;
+    text: string;
+    query: string;
 };
 
 export type CommandGetter = {
@@ -38,3 +40,15 @@ export type Handler = ({message: Message, command: string, args: Array<string>})
 export interface Proxy {
 	proxy(event: string, message: Message): Promise<any>;
 }
+
+import type EventEmitter from "events";
+import type TelegramBot from "node-telegram-bot-api";
+import type Auth from "./helpers/Auth";
+export type PluginInitializer = {
+	db: any;
+	blacklist: Array<number>;
+	emitter: EventEmitter;
+	bot: TelegramBot;
+	config: Config;
+	auth: Auth;
+};
