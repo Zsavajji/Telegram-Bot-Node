@@ -2,6 +2,7 @@
 	const title = "Telegram-Bot-Node";
 	const description = "A plugin-based, all-in-one Telegram bot written in Node.js."
 	const github = "https://github.com/crisbal/Telegram-Bot-Node";
+	const repoName = github.split("/")[4];
 
 doctype html
 head
@@ -9,11 +10,31 @@ head
 	meta(http-equiv="X-UA-Compatible" content="IE=edge")
 	meta(name="viewport" content="width=device-width, initial-scale=1")
 	title #{title}
-	// Bulma Version 0.6.0
 	link(rel="stylesheet" href="./bulma.min.css")
 	link(rel="stylesheet" type="text/css" href="admin.css")
+	style.
+		.terminal {
+			background-color: #333;
+			border-radius: 5px;
+			color: #fff;
+		}
+		.command:before {
+			content: "$ ";
+		}
+		.command {
+			font-weight: bold;
+		}
+		.comment:before {
+			content: "# ";
+		}
+		.comment {
+			color: #ccc;
+		}
+		p, pre {
+			margin-top: 16px;
+			margin-bottom: 16px;
+		}
 body
-	// START NAV
 	nav.navbar.is-white
 		.container
 			.navbar-brand
@@ -28,7 +49,6 @@ body
 						| Issues
 					a.navbar-item(href=github + "/pulls")
 						| Pull requests
-	// END NAV
 	.container
 		section.hero.is-info.welcome.is-small
 			.hero-body
@@ -40,60 +60,39 @@ body
 		br
 		h1.title What is #{title}?
 		p
-			| #{title} is a Telegram #[strong bot framework] written in Node.js. Its architecture is based on plugins, many of which are bundled by default. It supports:
+			| #{title} is an extensible #[strong Telegram bot] written in Node.js. Its architecture is based on plugins, many of which are bundled by default. It features:
 			//- .content is needed for bullet lists
 			.content
 				ul(style="list-style-type: square;")
-					li All bot API features
-					li Moderation tools
+					li All bot API functions
+					li Advanced moderation tools
+					li An installation wizard
 					li Enabling, disabling and live-reloading plugins
 					li Importing custom plugins
-					li Automatic software updates (soon!)
+					li Inline messages
 		.columns
 			.column.is-3
 				aside.menu
-					p.menu-label
-						| General
+					p.menu-label Usage
 					ul.menu-list
 						li
-							a.is-active Dashboard
+							a(href="#installation") Installation
 						li
-							a Customers
-					p.menu-label
-						| Administration
-					ul.menu-list
-						li
-							a Team Settings
-						li
-							a Manage Your Team
+							a(href="#plugins") Plugins
 							ul
-								li
-									a Members
-								li
-									a Plugins
-								li
-									a Add a member
-						li
-							a Invitations
-						li
-							a Cloud Storage Environment Settings
-						li
-							a Authentication
-					p.menu-label
-						| Transactions
+								li: a(href="#moderation") Moderation
+								li: a(href="#utility") Utility
+								li: a(href="#fun") Fun
+								li: a(href="#search") Search
+					p.menu-label Development
 					ul.menu-list
-						li
-							a Payments
-						li
-							a Transfers
-						li
-							a Balance
+						li TODO
 			.column.is-9
-				section.info-tiles
+				//section.info-tiles
 					.tile.is-ancestor.has-text-centered
 						.tile.is-parent
 							article.tile.is-child.box
-								p.title 36
+								p.title 38
 								p.subtitle plugins
 						.tile.is-parent
 							article.tile.is-child.box
@@ -103,103 +102,117 @@ body
 							article.tile.is-child.box
 								p.title MIT
 								p.subtitle licensed
+				//hr
+				section#installation
+					h3.title Installation
+					p.
+						#{title} is written in Node.js, so you'll need to #[a(href="https://nodejs.org/en/download/") download] and install it together with npm. Take care to install Node.js 6.0 or higher.
+					p.
+						Clone the #[a(href=github) repository] to your computer and run the setup wizard:
+					pre.terminal
+						.command git clone #{github}
+						.command cd #{repoName}
+						.command npm run setup:guided
+					p.
+						The wizard will ask for the bot token, which you can get from #[a(href="https://t.me/BotFather") @BotFather], and then take control of the bot.
+					div(style="text-align: center;")
+						a(href="img/cli-install.png"): img(src="img/cli-install.png")
+						br
+						i The command-line wizard.
+					br
+					div(style="text-align: center;")
+						a(href="img/telegram-install-1.png"): img(src="img/telegram-install-1.png")
+						br
+						i The list of plugins in the bot wizard.
+					br
+					div(style="text-align: center;")
+						a(href="img/telegram-install-2.png"): img(src="img/telegram-install-2.png")
+						br
+						i Plugin selection in the bot wizard.
+					p.
+						When you're done, just send #[kbd /done] to quit the wizard, and you're ready to launch the bot:
+					pre.terminal
+						.command npm start bot
+						div info: [Bot] Telegram-Bot-Node version 1.0.0, commit 72567d9
+						div info: [Bot] Instance created.
+						div info: [Bot] Plugins loaded.
+						div info: [Bot] The bot is online!
+				hr
+				section#plugins
+					h3.title Plugins
+					p.
+						#{title} features many plugins for different use cases, from #[strong moderation tools] to #[strong word games]. Here are some highlights:
 				.columns
 					.column.is-6
-						.card.events-card
+						.card.events-card.red#moderation
 							header.card-header
-								p.card-header-title
-									| Events
-								a.card-header-icon(href="#" aria-label="more options")
-									span.icon
-										i.fa.fa-angle-down(aria-hidden="true")
+								p.card-header-title Moderation
 							.card-table
 								.content
-									table.table.is-fullwidth.is-striped
-										tbody
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-											tr
-												td(width="5%")
-													i.fa.fa-bell-o
-												td Lorum ipsum dolem aire
-												td
-													a.button.is-small.is-primary(href="#") Action
-							footer.card-footer
-								a.card-footer-item(href="#") View All
+									table.table.is-fullwidth.red: tbody
+											tr: td
+												b Kick
+												p Provides basic kick/ban functionality.
+											tr: td
+												b ModTools
+												p Implements warnings, banned words and reporting features.
+											tr: td
+												b Antiflood
+												p Stops floods by ignoring, warning or kicking users.
+											tr: td
+												b Ignore
+												p Prevents users from interacting with the bot.
+						.card.events-card.green#fun
+							header.card-header
+								p.card-header-title Fun
+							.card-table
+								.content
+									table.table.is-fullwidth.green: tbody
+											tr: td
+												b Markov
+												p Sends random messages by learning from yours.
+											tr: td
+												b Wordgame
+												p Test your typing speed, or your ability to solve anagrams.
+											tr: td
+												b Karma
+												p Keeps scores about users.
 					.column.is-6
-						.card
+						.card.events-card.yellow#utility
 							header.card-header
-								p.card-header-title
-									| Inventory Search
-								a.card-header-icon(href="#" aria-label="more options")
-									span.icon
-										i.fa.fa-angle-down(aria-hidden="true")
-							.card-content
+								p.card-header-title Utility
+							.card-table
 								.content
-									.control.has-icons-left.has-icons-right
-										input.input.is-large(type="text" placeholder="")
-										span.icon.is-medium.is-left
-											i.fa.fa-search
-										span.icon.is-medium.is-right
-											i.fa.fa-check
-						.card
+									table.table.is-fullwidth.yellow: tbody
+											tr: td
+												b Set/MediaSet
+												p Replies to triggers with a configurable message, image, video...
+											tr: td
+												b Reminder
+												p Reminds you of upcoming events.
+											tr: td
+												b Quote
+												p Can save quotes and browse them.
+											tr: td
+												b Vote
+												p Lets users vote on questions.
+											tr: td
+												b RegexSet
+												p Like Set, but accepts regular expressions.
+											tr: td
+												b Spoiler
+												p Hides spoilers with a button.
+						.card.events-card.blue#search
 							header.card-header
-								p.card-header-title
-									| User Search
-								a.card-header-icon(href="#" aria-label="more options")
-									span.icon
-										i.fa.fa-angle-down(aria-hidden="true")
-							.card-content
+								p.card-header-title Search
+							.card-table
 								.content
-									.control.has-icons-left.has-icons-right
-										input.input.is-large(type="text" placeholder="")
-										span.icon.is-medium.is-left
-											i.fa.fa-search
-										span.icon.is-medium.is-right
-											i.fa.fa-check
+									table.table.is-fullwidth.blue: tbody
+											tr: td
+												b UrbanDictionary
+											tr: td
+												b Google
+											tr: td
+												b xkcd
+											tr: td
+												b Fap

@@ -18,7 +18,7 @@ nav.navbar {
 }
 .columns {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 .menu-label {
   color: #8F99A3;
@@ -44,8 +44,8 @@ nav.navbar {
   margin-bottom: 2rem;
 }
 .card-header-title {
-  color: #8F99A3;
-  font-weight: 400;
+  color: #222;
+  /*font-weight: 400;*/
 }
 .info-tiles {
   margin: 1rem 0;
@@ -75,7 +75,39 @@ nav.navbar {
 .card-table .table {
   margin-bottom: 0;
 }
+.content table td {
+  border-bottom-width: 0px;
+}
+/*
 .events-card .card-table {
   max-height: 250px;
   overflow-y: scroll;
+}
+*/
+.red, .red .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+  background-color: #ffcdd2;
+}
+.red .card-header {
+  background-color: #ef9a9a;
+}
+
+.yellow, .yellow .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+  background-color: #ffecb3;
+}
+.yellow .card-header {
+  background-color: #ffe082;
+}
+
+.green, .green .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+  background-color: #dcedc8;
+}
+.green .card-header {
+  background-color: #c5e1a5;
+}
+
+.blue, .blue .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+  background-color: #b2dfdb;
+}
+.blue .card-header {
+  background-color: #80cbc4;
 }
