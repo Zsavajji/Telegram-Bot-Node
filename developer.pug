@@ -1,0 +1,46 @@
+-
+	const title = "Telegram-Bot-Node";
+	const description = "A plugin-based, all-in-one Telegram bot written in Node.js."
+	const github = "https://github.com/crisbal/Telegram-Bot-Node";
+	const repoName = github.split("/")[4];
+
+doctype html
+head
+	meta(charset="utf-8")
+	meta(http-equiv="X-UA-Compatible" content="IE=edge")
+	meta(name="viewport" content="width=device-width, initial-scale=1")
+	title #{title}
+	link(rel="stylesheet" href="./bulma.min.css")
+	link(rel="stylesheet" type="text/css" href="admin.css")
+body
+	nav.navbar.is-white
+		.container
+			.navbar-brand
+				a.navbar-item.brand-text #{title}
+			#navMenu.navbar-menu
+				.navbar-start
+					a.navbar-item(href=".")
+						| Project page
+					a.navbar-item(href=github)
+						| Source code
+					a.navbar-item(href=github + "/issues")
+						| Issues
+					a.navbar-item(href=github + "/pulls")
+						| Pull requests
+	.container
+		.columns
+			.column.is-3
+				aside.menu
+					p.menu-label Developer's guide
+					ul.menu-list
+						li: a(href="#architecture") Architecture
+			.column.is-9
+				section#architecture
+					h3.title Architecture
+					p.
+						This is an overview of the logic flow of messages:
+					div(style="text-align: center;")
+						a(href="img/Message_diagram.png"): img(src="img/Message_diagram.png")
+					p.
+						PluginManager receives Telegram messages, and passes them to the proxy plugins for inspection. If the message is approved by all proxies, it is sent to all plugins, which may decide to reply with a text, picture and so on by interacting directly with the Telegram API.
+					

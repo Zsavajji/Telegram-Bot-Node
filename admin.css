@@ -1,3 +1,10 @@
+.bd-notification {
+  border-radius: 3px;
+  padding: 1.25rem 0;
+  position: relative;
+  text-align: center;
+}
+
 html, body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
@@ -110,4 +117,28 @@ nav.navbar {
 }
 .blue .card-header {
   background-color: #80cbc4;
+}
+
+/*******************/
+
+.terminal {
+  background-color: #333;
+  border-radius: 5px;
+  color: #fff;
+}
+.command:before {
+  content: "$ ";
+}
+.command {
+  font-weight: bold;
+}
+.comment:before {
+  content: "# ";
+}
+.comment {
+  color: #ccc;
+}
+p, pre {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }

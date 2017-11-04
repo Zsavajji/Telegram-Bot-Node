@@ -12,28 +12,6 @@ head
 	title #{title}
 	link(rel="stylesheet" href="./bulma.min.css")
 	link(rel="stylesheet" type="text/css" href="admin.css")
-	style.
-		.terminal {
-			background-color: #333;
-			border-radius: 5px;
-			color: #fff;
-		}
-		.command:before {
-			content: "$ ";
-		}
-		.command {
-			font-weight: bold;
-		}
-		.comment:before {
-			content: "# ";
-		}
-		.comment {
-			color: #ccc;
-		}
-		p, pre {
-			margin-top: 16px;
-			margin-bottom: 16px;
-		}
 body
 	nav.navbar.is-white
 		.container
@@ -57,8 +35,8 @@ body
 						| #{title}
 					h2.subtitle
 						| #{description}
-		br
-		h1.title What is #{title}?
+		// br
+		// h1.title What is #{title}?
 		p
 			| #{title} is an extensible #[strong Telegram bot] written in Node.js. Its architecture is based on plugins, many of which are bundled by default. It features:
 			//- .content is needed for bullet lists
@@ -70,160 +48,13 @@ body
 					li Enabling, disabling and live-reloading plugins
 					li Importing custom plugins
 					li Inline messages
+		br
 		.columns
-			.column.is-3
-				aside.menu
-					p.menu-label Usage
-					ul.menu-list
-						li
-							a(href="#installation") Installation
-						li
-							a(href="#plugins") Plugins
-							ul
-								li: a(href="#moderation") Moderation
-								li: a(href="#utility") Utility
-								li: a(href="#fun") Fun
-								li: a(href="#search") Search
-					p.menu-label Development
-					ul.menu-list
-						li: a(href="#architecture") Architecture
-			.column.is-9
-				//section.info-tiles
-					.tile.is-ancestor.has-text-centered
-						.tile.is-parent
-							article.tile.is-child.box
-								p.title 38
-								p.subtitle plugins
-						.tile.is-parent
-							article.tile.is-child.box
-								p.title 2.5k
-								p.subtitle lines of code
-						.tile.is-parent
-							article.tile.is-child.box
-								p.title MIT
-								p.subtitle licensed
-				//hr
-				section#installation
-					h3.title Installation
+			a.column(href="user.html" style="padding: 0 0.75rem 0 0;"): .bd-notification(style="text-align: center; background-color: #4FC3F7")
+					span.title Are you a user?
 					p.
-						#{title} is written in Node.js, so you'll need to #[a(href="https://nodejs.org/en/download/") download] and install it together with npm. Take care to install Node.js 6.0 or higher.
+						Browse the usage guide
+			a.column(href="developer.html" style="padding: 0 0 0 0.75rem;"): .bd-notification(style="text-align: center; background-color: #4FC3F7")
+					span.title Are you a developer?
 					p.
-						Clone the #[a(href=github) repository] to your computer and run the setup wizard:
-					pre.terminal
-						.command git clone #{github}
-						.command cd #{repoName}
-						.command npm run setup:guided
-					p.
-						The wizard will ask for the bot token, which you can get from #[a(href="https://t.me/BotFather") @BotFather], and then take control of the bot.
-					div(style="text-align: center;")
-						a(href="img/cli-install.png"): img(src="img/cli-install.png")
-						br
-						i The command-line wizard.
-					br
-					div(style="text-align: center;")
-						a(href="img/telegram-install-1.png"): img(src="img/telegram-install-1.png")
-						br
-						i The list of plugins in the bot wizard.
-					br
-					div(style="text-align: center;")
-						a(href="img/telegram-install-2.png"): img(src="img/telegram-install-2.png")
-						br
-						i Plugin selection in the bot wizard.
-					p.
-						When you're done, just send #[kbd /done] to quit the wizard, and you're ready to launch the bot:
-					pre.terminal
-						.command npm start bot
-						div info: [Bot] Telegram-Bot-Node version 1.0.0, commit 72567d9
-						div info: [Bot] Instance created.
-						div info: [Bot] Plugins loaded.
-						div info: [Bot] The bot is online!
-				hr
-				section#plugins
-					h3.title Plugins
-					p.
-						#{title} features many plugins for different use cases, from #[strong moderation tools] to #[strong word games]. Here are some highlights:
-					.columns
-						.column.is-6
-							.card.events-card.red#moderation
-								header.card-header
-									p.card-header-title Moderation
-								.card-table
-									.content
-										table.table.is-fullwidth.red: tbody
-												tr: td
-													b Kick
-													p Provides basic kick/ban functionality.
-												tr: td
-													b ModTools
-													p Implements warnings, banned words and reporting features.
-												tr: td
-													b Antiflood
-													p Stops floods by ignoring, warning or kicking users.
-												tr: td
-													b Ignore
-													p Prevents users from interacting with the bot.
-							.card.events-card.green#fun
-								header.card-header
-									p.card-header-title Fun
-								.card-table
-									.content
-										table.table.is-fullwidth.green: tbody
-												tr: td
-													b Markov
-													p Sends random messages by learning from yours.
-												tr: td
-													b Wordgame
-													p Test your typing speed, or your ability to solve anagrams.
-												tr: td
-													b Karma
-													p Keeps scores about users.
-						.column.is-6
-							.card.events-card.yellow#utility
-								header.card-header
-									p.card-header-title Utility
-								.card-table
-									.content
-										table.table.is-fullwidth.yellow: tbody
-												tr: td
-													b Set/MediaSet
-													p Replies to triggers with a configurable message, image, video...
-												tr: td
-													b Reminder
-													p Reminds you of upcoming events.
-												tr: td
-													b Quote
-													p Can save quotes and browse them.
-												tr: td
-													b Vote
-													p Lets users vote on questions.
-												tr: td
-													b RegexSet
-													p Like Set, but accepts regular expressions.
-												tr: td
-													b Spoiler
-													p Hides spoilers with a button.
-							.card.events-card.blue#search
-								header.card-header
-									p.card-header-title Search
-								.card-table
-									.content
-										table.table.is-fullwidth.blue: tbody
-												tr: td
-													b UrbanDictionary
-												tr: td
-													b Google
-												tr: td
-													b xkcd
-												tr: td
-													b Fap
-												tr: td
-													b Rule34
-				hr
-				section#architecture
-					h3.title Architecture
-					p.
-						This is an overview of the logic flow of messages:
-					div(style="text-align: center;")
-						a(href="img/AbstractArchitecture.dot.png"): img(src="img/AbstractArchitecture.dot.png")
-					p.
-						Messages received through #[tt: a(href="https://npmjs.com/package/node-telegram-bot-api") node-telegram-bot-api] are handled by PluginManager. They are filtered by proxies (i.e. plugins with #[tt isProxy: true]), which deal with things like ignored users and antiflood; then, they are published via an EventEmitter. Commands are additionally published as a special event. The plugin can then call #[tt sendMessage], #[tt sendPhoto], #[tt forwardMessage]... which are methods from the Telegram API exposed via #[tt node-telegram-bot-api].
+						Browse the documentation
