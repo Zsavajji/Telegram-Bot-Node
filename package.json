@@ -64,29 +64,34 @@
     "images": {
       "dev": "./dev/images/**/*.{gif,jpg,png,svg}",
       "dist": "./dist/assets/images/"
+    },
+    "fonts": {
+      "dev": "./dev/fonts/",
+      "dist": "./dist/assets/fonts/"
     }
   },
   "scripts": {
     "reset": "npm run clean && npm run create",
     "clean": "cross-conf-env rimraf $npm_package_config_dist",
-    "create": "cross-conf-env mkdirp ${npm_package_config_dist}assets/css/fonts/ ${npm_package_config_dist}assets/js/ ${npm_package_config_dist}assets/images/",
+    "create": "cross-conf-env mkdirp ${npm_package_config_dist}assets/css/ ${npm_package_config_dist}assets/js/ ${npm_package_config_dist}assets/images/ ${npm_package_config_dist}assets/fonts/",
     "watch:scripts": "npm run build:scripts -- -w",
     "watch:styles": "npm run build:sass && npm run build:sass -- -w",
     "watch:views": "npm run build:views -- -Pw",
-    "watch:all": "concurrently -kr 'npm run watch:scripts' 'npm run watch:styles' 'npm run watch:views'",
-    "build:all": "npm run build:scripts && npm run build:views && npm run build:styles",
+    "watch:all": "npm run build:fonts && concurrently -kr 'npm run watch:scripts' 'npm run watch:styles' 'npm run watch:views'",
+    "build:all": "npm run build:fonts && npm run build:scripts && npm run build:views && npm run build:styles",
+    "build:fonts": "cp -r ${npm_package_config_fonts_dev} ${npm_package_config_fonts_dist}",
     "build:scripts": "webpack",
     "build:sass": "cross-conf-env node-sass -i --output-style nested ${npm_package_config_styles_dev}main.scss ${npm_package_config_styles_dist}styles.css",
     "build:sassprod": "cross-conf-env node-sass -x -i --output-style nested ${npm_package_config_styles_dev}main.scss ${npm_package_config_styles_dist}styles.css",
     "build:css": "npm run build:sassprod && cross-conf-env postcss ${npm_package_config_styles_dist}styles.css --use autoprefixer -b 'last 2 versions' --no-map -o ${npm_package_config_styles_dist}styles.css && cross-conf-env postcss ${npm_package_config_styles_dist}styles.css --use cssnano --no-map  -o ${npm_package_config_styles_dist}styles.css",
     "build:views": "cross-conf-env pug -O ./options.json $npm_package_config_views_dev -o $npm_package_config_views_dist",
     "optimize:images": "node ./imagemin.js",
-    "build:prod": "npm run build:scripts -- -p && npm run build:views && npm run build:css && npm run optimize:images",
-    "build:dev": "npm run reset && npm run build:scripts -- --bail && npm run build:styles && npm run build:views && npm run optimize:images",
+    "build:prod": "npm run build:scripts -- -p && npm run build:views && npm run build:css && npm run optimize:images && npm run build:fonts",
+    "build:dev": "npm run reset && npm run build:scripts -- --bail && npm run build:styles && npm run build:views && npm run optimize:images && npm run build:fonts",
     "serve": "cross-conf-env browser-sync start -s $npm_package_config_dist -f '**/*.html', '**/*.css', '**/*.js'",
     "start": "npm run reset && npm run optimize:images && concurrently -kr 'npm run watch:all' 'npm run serve'"
   },
   "dependencies": {
-    "jquery": "^3.1.1"
+    "bulma": "^0.6.0"
   }
 }

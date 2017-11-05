@@ -1,6 +1,5 @@
-import myModule from './modules/my-module.js';
-import $ from 'jquery';
+// import myModule from './modules/my-module.js';
 
-myModule();
+// myModule();
 
-console.log(`Test`);
+// console.log(`Test`);

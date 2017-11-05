@@ -4,7 +4,6 @@ const webpack = require('webpack'),
 
 module.exports = {
   entry: {
-    vendor: ['jquery'],
     main: path.resolve(conf.scripts.dev + 'main.js')
   },
   output: {
