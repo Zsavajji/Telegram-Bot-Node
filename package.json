@@ -92,6 +92,8 @@
     "start": "npm run reset && npm run optimize:images && concurrently -kr 'npm run watch:all' 'npm run serve'"
   },
   "dependencies": {
-    "bulma": "^0.6.0"
+    "bulma": "^0.6.0",
+    "normalize.css": "^7.0.0",
+    "sass-mq": "^3.3.2"
   }
 }

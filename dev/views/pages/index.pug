@@ -9,34 +9,35 @@ block content
   include /partials/navbar
   +navbar(pages[page].title, github)
   
-  .container
-    section.hero.is-info.welcome.is-small
+  section.hero.is-info.welcome
+    .container
       .hero-body
-        .container
-          h1.title
-            = pages[page].title
-          h2.subtitle
-            = pages[page].description
-    // br
-    // h1.title What is #{title}?
-    p
-      | #{pages[page].title} is an extensible #[strong Telegram bot] written in Node.js. Its architecture is based on plugins, many of which are bundled by default. It features:
-      //- .content is needed for bullet lists
-    .content
-      ul(style="list-style-type: square;")
-        li All bot API functions
-        li Advanced moderation tools
-        li An installation wizard
-        li Enabling, disabling and live-reloading plugins
-        li Importing custom plugins
-        li Inline messages
-    br
-    .columns
-      .column.has-text-centered
-        h2.title Are you a user?
-        a.bd-notification(href="developer.html", alt= "Are you a developer?", title="Are you a developer?")
-          | Browse the usage guide
-      .column.has-text-centered
-        h2.title Are you a developer?
-        a.bd-notification(href="developer.html", alt= "Are you a developer?", title="Are you a developer?")
-          | Browse the documentation
+        h1.hero__title
+          = pages[page].title
+        h2.hero__subtitle
+          = pages[page].description
+  .container
+    section.section
+      .columns
+        .column
+          .content.page__content
+            p
+              | #{pages[page].title} is an extensible #[strong Telegram bot] written in Node.js. Its architecture is based on plugins, many of which are bundled by default. It features:
+              //- .content is needed for bullet lists
+            ul(style="list-style-type: square;")
+              li All bot API functions
+              li Advanced moderation tools
+              li An installation wizard
+              li Enabling, disabling and live-reloading plugins
+              li Importing custom plugins
+              li Inline messages
+    section.section
+      .columns
+        .column.has-text-centered
+          h2.title Are you a user?
+          a.button.is-link.button--full(href="developer.html", alt= "Are you a developer?", title="Are you a developer?")
+            | Browse the usage guide
+        .column.has-text-centered
+          h2.title Are you a developer?
+          a.button.is-link.button--full(href="developer.html", alt= "Are you a developer?", title="Are you a developer?")
+            | Browse the documentation
