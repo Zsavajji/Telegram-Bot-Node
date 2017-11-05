@@ -1,0 +1,28 @@
+extends /layouts/default
+
+block vars
+  - var page = "developer";
+  - const github = "https://github.com/crisbal/Telegram-Bot-Node";
+  - const repoName = github.split("/")[4];
+
+block content
+  include /partials/navbar
+  +navbar(pages[page].title, github)
+  
+  .container
+    .columns
+      .column.is-3
+        aside.menu
+          p.menu-label Developer's guide
+          ul.menu-list
+            li: a(href="#architecture") Architecture
+      .column.is-9
+        section#architecture
+          h3.title Architecture
+          p.
+            This is an overview of the logic flow of messages:
+          div(style="text-align: center;")
+            a(href="img/Message_diagram.png"): img(src="img/Message_diagram.png")
+          p
+            PluginManager receives Telegram messages, and passes them to the proxy plugins for inspection. If the message is approved by all proxies, it is sent to all plugins, which may decide to reply with a text, picture and so on by interacting directly with the Telegram API.
+          

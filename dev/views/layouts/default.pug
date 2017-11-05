@@ -1,0 +1,20 @@
+block vars
+  - var page;
+
+doctype html
+html(lang=meta.lang)
+  head
+    title
+      = pages[page].title
+    
+    block metatags
+      include /includes/metatags
+
+    block styles
+      include /includes/styles
+
+  body
+    block content
+
+    block scripts
+      include /includes/scripts

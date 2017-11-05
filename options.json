@@ -1,0 +1,45 @@
+{
+  "sitename": "Simpler Boilerplate",
+  "basedir": "./dev/views/",
+  "root": "/",
+  "analyticsCode": "UA-XXXXX-X",
+  "meta": {
+    "language": "en",
+    "locale": "en-us",
+    "og_enabled": false,
+    "twitter_enabled": false,
+    "schema": false
+  },
+  "pages": {
+    "home": {
+      "title": "Telegram-Bot-Node",
+      "description": "A plugin-based, all-in-one Telegram bot written in Node.js.",
+      "keywords": "telegram, node, bot, plugins, extensible, es2015",
+      "contact": false,
+      "author": false,
+      "image": false,
+      "url": false,
+      "canonical": false
+    },
+    "developer": {
+      "title": "Telegram-Bot-Node",
+      "description": "A plugin-based, all-in-one Telegram bot written in Node.js.",
+      "keywords": "telegram, node, bot, plugins, extensible, es2015",
+      "contact": false,
+      "author": false,
+      "image": false,
+      "url": false,
+      "canonical": false
+    },
+    "user": {
+      "title": "Telegram-Bot-Node",
+      "description": "A plugin-based, all-in-one Telegram bot written in Node.js.",
+      "keywords": "telegram, node, bot, plugins, extensible, es2015",
+      "contact": false,
+      "author": false,
+      "image": false,
+      "url": false,
+      "canonical": false
+    }
+  }
+}
