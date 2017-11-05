@@ -6,9 +6,7 @@ block vars
   - const repoName = github.split("/")[4];
 
 block content
-  include /partials/navbar
-  +navbar(pages[page].title, github)
-  
+
   section.hero.is-info.welcome
     .container
       .hero-body
@@ -35,7 +33,7 @@ block content
       .columns
         .column.has-text-centered
           h2.title Are you a user?
-          a.button.is-link.button--full(href="developer.html", alt= "Are you a developer?", title="Are you a developer?")
+          a.button.is-link.button--full(href="user.html", alt= "Are you a user?", title="Are you a user?")
             | Browse the usage guide
         .column.has-text-centered
           h2.title Are you a developer?

@@ -16,6 +16,16 @@ html, body {
   background-color: $color-bg;
 }
 
+figure {
+  margin: 2rem 0;
+  a {
+    display: block;
+  }
+}
+figcaption {
+  margin-top: 8px;
+  font-style: italic;
+}
 nav.navbar {
   border-top: 4px solid $color-darkblue;
   margin-bottom: 1rem;
