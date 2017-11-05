@@ -23,10 +23,6 @@ nav.navbar {
   font-size: 14px;
   font-weight: 700;
 }
-.columns {
-  width: 100%;
-  /* height: 100%; */
-}
 .menu-label {
   color: #8F99A3;
   letter-spacing: 1.3;
@@ -85,6 +81,13 @@ nav.navbar {
 .content table td {
   border-bottom-width: 0px;
 }
+.bd-notification {
+  display: block;
+  background-color: #4FC3F7;
+  text-transform: uppercase;
+  color: white;
+}
+
 /*
 .events-card .card-table {
   max-height: 250px;

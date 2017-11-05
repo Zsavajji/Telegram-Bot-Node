@@ -22,21 +22,21 @@ block content
     p
       | #{pages[page].title} is an extensible #[strong Telegram bot] written in Node.js. Its architecture is based on plugins, many of which are bundled by default. It features:
       //- .content is needed for bullet lists
-      .content
-        ul(style="list-style-type: square;")
-          li All bot API functions
-          li Advanced moderation tools
-          li An installation wizard
-          li Enabling, disabling and live-reloading plugins
-          li Importing custom plugins
-          li Inline messages
+    .content
+      ul(style="list-style-type: square;")
+        li All bot API functions
+        li Advanced moderation tools
+        li An installation wizard
+        li Enabling, disabling and live-reloading plugins
+        li Importing custom plugins
+        li Inline messages
     br
     .columns
-      a.column(href="user.html" style="padding: 0 0.75rem 0 0;"): .bd-notification(style="text-align: center; background-color: #4FC3F7")
-          span.title Are you a user?
-          p.
-            Browse the usage guide
-      a.column(href="developer.html" style="padding: 0 0 0 0.75rem;"): .bd-notification(style="text-align: center; background-color: #4FC3F7")
-          span.title Are you a developer?
-          p.
-            Browse the documentation
+      .column.has-text-centered
+        h2.title Are you a user?
+        a.bd-notification(href="developer.html", alt= "Are you a developer?", title="Are you a developer?")
+          | Browse the usage guide
+      .column.has-text-centered
+        h2.title Are you a developer?
+        a.bd-notification(href="developer.html", alt= "Are you a developer?", title="Are you a developer?")
+          | Browse the documentation
