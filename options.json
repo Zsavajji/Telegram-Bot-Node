@@ -1,7 +1,7 @@
 {
   "sitename": "Simpler Boilerplate",
   "basedir": "./dev/views/",
-  "root": "/",
+  "root": "/dist/",
   "analyticsCode": "UA-XXXXX-X",
   "meta": {
     "language": "en",
